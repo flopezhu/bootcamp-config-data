@@ -1,0 +1,62 @@
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+spring:
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: bootcamp-customer-service
+          uri: lb://BOOTCAMP-CUSTOMER-SERVICE
+          predicates:
+            - Path=/api/customers/**
+        - id: bootcamp-product-service
+          uri: lb://BOOTCAMP-PRODUCT-SERVICE
+          predicates:
+            - Path=/api/products/**
+        - id: bootcamp-bankaccount-service
+          uri: lb://BOOTCAMP-BANKACCOUNT-SERVICE
+          predicates:
+            - Path=/api/bankAccount/**
+        - id: bootcamp-credit-service
+          uri: lb://BOOTCAMP-CREDIT-SERVICE
+          predicates:
+            - Path=/api/credit/**
+        - id: bootcamp-customertype-service
+          uri: lb://BOOTCAMP-CUSTOMERTYPE-SERVICE
+          predicates:
+            - Path=/api/customerType/**
+        - id: bootcamp-payment-service
+          uri: lb://BOOTCAMP-PAYMENT-SERVICE
+          predicates:
+            - Path=/api/payments/**
+        - id: bootcamp-assurance-service
+          uri: lb://BOOTCAMP-ASSURANCE-SERVICE
+          predicates:
+            - Path=/api/assurance/**
+        - id: bootcamp-transaction-service
+          uri: lb://BOOTCAMP-TRANSACTION-SERVICE
+          predicates:
+            - Path=/api/transaction/**
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
